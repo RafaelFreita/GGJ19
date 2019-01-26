@@ -82,7 +82,7 @@ namespace TR
 					OnDeath();
 				}
 				Debug.Log(timer.GetProgress(duration));
-				transform.localScale = scale * (1-timer.GetProgress(duration));
+				transform.localScale = scale * (1 - timer.GetProgress(duration));
 			}
 		}
 
@@ -150,15 +150,19 @@ namespace TR
 		{
 			if (fireplace && fireplace.pivot)
 			{
-				timer.Stop();
 				currentFireplace = fireplace;
 				lastFireplace?.SetActive(false);
 				currentFireplace.SetActive(true);
 				currentPivot = fireplace.pivot.transform;
+
 				targetRigidbody.bodyType = RigidbodyType2D.Kinematic;
 				targetRigidbody.velocity = Vector2.zero;
 				targetRigidbody.angularVelocity = 0;
 				transform.position = currentPivot.position;
+
+				timer.Stop();
+				StartCoroutine(WaitForProjectileReturn());
+
 			}
 		}
 		/// <summary>
@@ -187,7 +191,6 @@ namespace TR
 				emission.enabled = true;
 			}
 			transform.localScale = scale;
-
 		}
 
 

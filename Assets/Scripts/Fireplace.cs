@@ -14,6 +14,7 @@ namespace TR
 		private void Awake()
 		{
 			startPosition = pivot.position;
+			SetActive(false);
 		}
 
 		public void RestartPositionPivot()
