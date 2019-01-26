@@ -37,7 +37,8 @@ namespace TR
 		private void Awake()
 		{
 			targetRigidbody = GetComponent<Rigidbody2D>();
-			targetTransform = transform;
+            targetRigidbody.isKinematic = true;
+            targetTransform = transform;
 		}
 
 		/// <summary>

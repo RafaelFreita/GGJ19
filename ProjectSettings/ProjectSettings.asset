@@ -600,6 +600,7 @@ PlayerSettings:
       daydreamIconForeground: {fileID: 0}
       daydreamIconBackground: {fileID: 0}
   cloudServicesEnabled:
+    Build: 1
     UNet: 1
   luminIcon:
     m_Name: 
@@ -620,10 +621,10 @@ PlayerSettings:
   facebookXfbml: 0
   facebookFrictionlessRequests: 1
   apiCompatibilityLevel: 6
-  cloudProjectId: 
+  cloudProjectId: d11ef0dc-9199-42ec-93d7-777341a2b53d
   framebufferDepthMemorylessMode: 0
-  projectName: 
-  organizationId: 
+  projectName: GGJ19
+  organizationId: twin-ravens
   cloudEnabled: 0
   enableNativePlatformBackendsForNewInputSystem: 0
   disableOldInputManagerSupport: 0
