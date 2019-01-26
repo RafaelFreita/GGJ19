@@ -7,6 +7,7 @@ namespace TR
 	public class SlingshotProjectileBehaviour : MonoBehaviour
 	{
 		public Transform currentPivot;
+		private Transform lastPivot;
 		public Transform targetTransform;
 
 		[SerializeField]
@@ -58,8 +59,18 @@ namespace TR
 		}
 
 		[LUT.Button]
+		public void ResetPivot()
+		{
+			currentPivot = lastPivot;
+		}
+
+		[LUT.Button]
 		public void Shoot()
 		{
+			if (!currentPivot)
+			{
+				return;
+			}
 			Vector3 direction = currentPivot.position - targetTransform.position;
 			direction.z = 0;
 			float magnitude = direction.magnitude;
@@ -72,10 +83,10 @@ namespace TR
 			{
 				direction /= magnitude;
 				float forcePercentage = (magnitude) / maxDistance;
-				Debug.Log(forcePercentage);
 				float force = forcePercentage * (maxForce - minForce) + minForce;
-				Debug.Log(force);
 
+				lastPivot = currentPivot;
+				currentPivot = null;
 				targetRigidbody.bodyType = RigidbodyType2D.Dynamic;
 				targetRigidbody.AddForce(direction * force, forceMode2D);
 			}
@@ -84,7 +95,7 @@ namespace TR
 #if UNITY_EDITOR
 		private void OnDrawGizmos()
 		{
-			if (!currentPivot && !targetTransform)
+			if (!currentPivot || !targetTransform)
 			{
 				return;
 			}

@@ -188,7 +188,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 364052181}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalPosition: {x: 0, y: 1, z: -4.21}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -363,7 +363,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1920215236}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.704, y: 0.385, z: 0}
+  m_LocalPosition: {x: -0.77, y: -0.09, z: 0}
   m_LocalScale: {x: 0.17563972, y: 0.17563972, z: 0.17563972}
   m_Children: []
   m_Father: {fileID: 0}
@@ -407,8 +407,8 @@ MonoBehaviour:
   targetRigidbody: {fileID: 1920215241}
   minDistance: 0.84
   maxDistance: 2.21
-  minForce: 1
-  maxForce: 5
+  minForce: 5
+  maxForce: 10
   forceMode2D: 1
 --- !u!1 &2073879979
 GameObject:
