@@ -4,16 +4,16 @@ using UnityEngine;
 
 namespace TR
 {
+	[RequireComponent(typeof(Rigidbody2D))]
 	public class SlingshotProjectileBehaviour : MonoBehaviour
 	{
 		public Transform currentPivot;
 		private Transform lastPivot;
-		public Transform targetTransform;
 
-		[SerializeField]
-		[AutoFind(typeof(Rigidbody2D))]
+		private Transform targetTransform;
 		private Rigidbody2D targetRigidbody;
 
+		
 		[Header("Drag")]
 		[SerializeField]
 		[Unit("m")]
@@ -34,8 +34,7 @@ namespace TR
 		private ForceMode2D forceMode2D;
 
 
-
-		private void Reset()
+		private void Awake()
 		{
 			targetRigidbody = GetComponent<Rigidbody2D>();
 			targetTransform = transform;
@@ -62,6 +61,7 @@ namespace TR
 		public void ResetPivot()
 		{
 			currentPivot = lastPivot;
+			targetRigidbody.bodyType = RigidbodyType2D.Kinematic;
 		}
 
 		[LUT.Button]
