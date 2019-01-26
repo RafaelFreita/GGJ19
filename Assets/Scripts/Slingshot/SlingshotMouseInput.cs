@@ -22,6 +22,13 @@ namespace TR
 		private SlingshotProjectileBehaviour projectileBehaviour;
 		private Vector2 lastPoint = Vector2.zero;
 
+		public bool IsDragging
+		{
+			get
+			{
+				return target;
+			}
+		}
 		private void Reset()
 		{
 			camera = FindObjectOfType<Camera>();
