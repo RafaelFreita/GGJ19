@@ -1,13 +1,16 @@
 ﻿using BitStrap;
 using LUT;
+using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace TR
 {
 	[RequireComponent(typeof(Rigidbody2D))]
 	public class SlingshotProjectileBehaviour : MonoBehaviour
 	{
-		public Transform currentPivot;
+
+		private Transform currentPivot;
 		private Fireplace lastFireplace;
 		private Fireplace currentFireplace;
 
@@ -15,6 +18,7 @@ namespace TR
 
 		[SerializeField]
 		private LayerMask killerMask;
+		private ParticleSystem[] particleSystems;
 
 		[Header("Drag")]
 		[SerializeField]
@@ -39,12 +43,15 @@ namespace TR
 
 		[Space]
 		[SerializeField]
-		private ForceMode2D forceMode2D;
+		private ForceMode2D forceMode2D = ForceMode2D.Impulse;
 
 		[Header("Collision")]
 		[SerializeField]
 		[LayerSelector]
 		private int pivotLayer = 0;
+
+		[Header("Events")]
+		public UnityEvent onRespawn = new UnityEvent();
 
 		public bool IsMoving
 		{
@@ -61,6 +68,7 @@ namespace TR
 		private void Awake()
 		{
 			targetRigidbody = GetComponent<Rigidbody2D>();
+			particleSystems = GetComponentsInChildren<ParticleSystem>();
 		}
 
 		/// <summary>
@@ -110,6 +118,7 @@ namespace TR
 		{
 			if (fireplace && fireplace.pivot)
 			{
+
 				currentFireplace = fireplace;
 				currentPivot = fireplace.pivot.transform;
 				targetRigidbody.bodyType = RigidbodyType2D.Kinematic;
@@ -124,9 +133,27 @@ namespace TR
 		[LUT.Button]
 		public void ResetPivot()
 		{
+			foreach (var particle in particleSystems)
+			{
+				var emission = particle.emission;
+				emission.enabled = false;
+			}
 			lastFireplace.RestartPositionPivot();
 			AssignNewPivot(lastFireplace);
+			onRespawn.Invoke();
+			StartCoroutine(WaitForProjectileReturn());
 		}
+
+		private IEnumerator WaitForProjectileReturn()
+		{
+			yield return null;
+			foreach (var particle in particleSystems)
+			{
+				var emission = particle.emission;
+				emission.enabled = true;
+			}
+		}
+
 
 		[LUT.Button]
 		public void Shoot()

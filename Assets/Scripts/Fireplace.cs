@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Events;
 
 namespace TR
 {
@@ -8,6 +9,8 @@ namespace TR
 
 		public Vector3 startPosition;
 
+		public UnityEventBool onActive;
+
 		private void Awake()
 		{
 			startPosition = pivot.position;
@@ -16,6 +19,12 @@ namespace TR
 		public void RestartPositionPivot()
 		{
 			pivot.transform.position = startPosition;
+		}
+
+
+		public void SetActive(bool b)
+		{
+			onActive.Invoke(b);
 		}
 	}
 }
