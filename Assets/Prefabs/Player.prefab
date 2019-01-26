@@ -244,7 +244,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 717720552e6d519488a52e5244a834da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentPivot: {fileID: 0}
+  killerMask:
+    serializedVersion: 2
+    m_Bits: 4096
+  duration:
+    length: 1
   minDistance: 0.5
   maxDistance: 2
   mapDistanceToForce: 1
@@ -253,6 +257,11 @@ MonoBehaviour:
   maxForce: 20
   forceMode2D: 1
   pivotLayer: 10
+  onRespawn:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!114 &610172140
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -450,42 +459,42 @@ PrefabInstance:
       propertyPath: ClampVelocityModule.magnitude.maxCurve.m_Curve.Array.data[0].value
       value: 0.16417885
       objectReference: {fileID: 0}
-    - target: {fileID: 3687117149813121111, guid: 18ca2bdb40ff90646b2f01a21d3c5a60,
+    - target: {fileID: 3687117149386454652, guid: 18ca2bdb40ff90646b2f01a21d3c5a60,
         type: 3}
       propertyPath: EmissionModule.rateOverDistance.scalar
       value: 10
       objectReference: {fileID: 0}
-    - target: {fileID: 3687117149813121111, guid: 18ca2bdb40ff90646b2f01a21d3c5a60,
+    - target: {fileID: 3687117149386454652, guid: 18ca2bdb40ff90646b2f01a21d3c5a60,
         type: 3}
       propertyPath: InheritVelocityModule.m_Curve.scalar
       value: 0.05
       objectReference: {fileID: 0}
-    - target: {fileID: 3687117149813121111, guid: 18ca2bdb40ff90646b2f01a21d3c5a60,
+    - target: {fileID: 3687117149386454652, guid: 18ca2bdb40ff90646b2f01a21d3c5a60,
         type: 3}
       propertyPath: ClampVelocityModule.magnitude.minMaxState
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 3687117149813121111, guid: 18ca2bdb40ff90646b2f01a21d3c5a60,
+    - target: {fileID: 3687117149386454652, guid: 18ca2bdb40ff90646b2f01a21d3c5a60,
         type: 3}
       propertyPath: ClampVelocityModule.magnitude.maxCurve.m_Curve.Array.data[0].value
       value: 0.16417885
       objectReference: {fileID: 0}
-    - target: {fileID: 3687117149386454652, guid: 18ca2bdb40ff90646b2f01a21d3c5a60,
+    - target: {fileID: 3687117149813121111, guid: 18ca2bdb40ff90646b2f01a21d3c5a60,
         type: 3}
       propertyPath: EmissionModule.rateOverDistance.scalar
       value: 10
       objectReference: {fileID: 0}
-    - target: {fileID: 3687117149386454652, guid: 18ca2bdb40ff90646b2f01a21d3c5a60,
+    - target: {fileID: 3687117149813121111, guid: 18ca2bdb40ff90646b2f01a21d3c5a60,
         type: 3}
       propertyPath: InheritVelocityModule.m_Curve.scalar
       value: 0.05
       objectReference: {fileID: 0}
-    - target: {fileID: 3687117149386454652, guid: 18ca2bdb40ff90646b2f01a21d3c5a60,
+    - target: {fileID: 3687117149813121111, guid: 18ca2bdb40ff90646b2f01a21d3c5a60,
         type: 3}
       propertyPath: ClampVelocityModule.magnitude.minMaxState
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 3687117149386454652, guid: 18ca2bdb40ff90646b2f01a21d3c5a60,
+    - target: {fileID: 3687117149813121111, guid: 18ca2bdb40ff90646b2f01a21d3c5a60,
         type: 3}
       propertyPath: ClampVelocityModule.magnitude.maxCurve.m_Curve.Array.data[0].value
       value: 0.16417885
