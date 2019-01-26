@@ -60,6 +60,7 @@ namespace TR
 
 		private Vector3 scale = Vector3.zero;
 
+		public Transform CurrentPivot { get => currentPivot; }
 
 		private void Reset()
 		{
@@ -143,6 +144,8 @@ namespace TR
 				return targetRigidbody.bodyType == RigidbodyType2D.Dynamic;
 			}
 		}
+
+
 		private void AssignNewPivot(Fireplace fireplace)
 		{
 			if (fireplace && fireplace.pivot)
