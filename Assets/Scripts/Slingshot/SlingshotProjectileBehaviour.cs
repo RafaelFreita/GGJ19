@@ -101,6 +101,7 @@ namespace TR
 			Debug.Log(collision);
 			if (((1 << collision.gameObject.layer) & killerMask) != 0)
 			{
+
 				ResetPivot();
 			}
 		}
