@@ -15,6 +15,10 @@ namespace TR
 		[SerializeField]
 		private Collider2D target;
 
+		private Fireplace targetFireplace;
+
+		[AutoFind(typeof(SlingshotProjectileBehaviour),true)]
+		[SerializeField]
         private SlingshotProjectileBehaviour projectileBehaviour;
         private Vector2 lastPoint = Vector2.zero;
 
@@ -44,10 +48,8 @@ namespace TR
 			if (camera != null)
 			{
 				Vector2 point = camera.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, -camera.transform.position.z));
-				Debug.Log(point);
 				target = Physics2D.OverlapPoint(point, LayerMask);
-                projectileBehaviour = target?.GetComponent<SlingshotProjectileBehaviour>();
-                Debug.Log(target);
+				targetFireplace = target?.GetComponent<Fireplace>();
 
 				lastPoint = point;
 			}

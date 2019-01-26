@@ -8,7 +8,8 @@ namespace TR
 	public class SlingshotProjectileBehaviour : MonoBehaviour
 	{
 		public Transform currentPivot;
-		private Transform lastPivot;
+		private Fireplace lastFireplace;
+		private Fireplace currentFireplace;
 
 		private Rigidbody2D targetRigidbody;
 
@@ -58,7 +59,6 @@ namespace TR
 		private void Awake()
 		{
 			targetRigidbody = GetComponent<Rigidbody2D>();
-			targetRigidbody.isKinematic = true;
 		}
 
 		/// <summary>
@@ -68,30 +68,44 @@ namespace TR
 		{
 			if (currentPivot)
 			{
-				Vector3 direction = transform.position - currentPivot.position;
+				Vector3 direction = currentPivot.position - transform.position;
 				direction.z = 0;
 				if (direction.magnitude > maxDistance)
 				{
 					direction = Vector3.ClampMagnitude(direction, maxDistance);
-					transform.position = direction + currentPivot.position;
+					currentPivot.position = direction + transform.position;
 				}
 			}
 		}
 		private void OnTriggerEnter2D(Collider2D collider)
 		{
-			if (collider.gameObject.layer == pivotLayer && currentPivot != collider.transform && lastPivot != collider.transform)
+			if (collider.gameObject.layer == pivotLayer)
 			{
-				AssignNewPivot(collider.transform);
+				var fireplace = collider.GetComponent<Fireplace>();
+				if (fireplace == currentFireplace)
+				{
+					return;
+				}
+				else
+				{
+					AssignNewPivot(fireplace);
+				}
+
 			}
 		}
 
 
-		private void AssignNewPivot(Transform newPivot)
+		private void AssignNewPivot(Fireplace fireplace)
 		{
-			currentPivot = newPivot;
-			targetRigidbody.bodyType = RigidbodyType2D.Kinematic;
-			targetRigidbody.velocity = Vector2.zero;
-			transform.position = currentPivot.position;
+			if (fireplace && fireplace.pivot)
+			{
+				currentFireplace = fireplace;
+				currentPivot = fireplace.pivot.transform;
+				targetRigidbody.bodyType = RigidbodyType2D.Kinematic;
+				targetRigidbody.velocity = Vector2.zero;
+				targetRigidbody.angularVelocity = 0;
+				transform.position = currentPivot.position;
+			}
 		}
 		/// <summary>
 		/// Called when killed or for testing
@@ -99,7 +113,8 @@ namespace TR
 		[LUT.Button]
 		public void ResetPivot()
 		{
-			AssignNewPivot(lastPivot);
+			lastFireplace.RestartPositionPivot();
+			AssignNewPivot(lastFireplace);
 		}
 
 		[LUT.Button]
@@ -109,13 +124,14 @@ namespace TR
 			{
 				return;
 			}
-			Vector3 direction = currentPivot.position - transform.position;
+			Vector3 direction = transform.position - currentPivot.position;
 			direction.z = 0;
 			float magnitude = direction.magnitude;
 			if (magnitude < minDistance)
 			{
 				// goes back to the pivot
-				transform.position = currentPivot.position;
+				currentFireplace.RestartPositionPivot();
+				currentPivot.position = transform.position;
 			}
 			else
 			{
@@ -124,23 +140,21 @@ namespace TR
 				float force = forcePercentage;
 				if (mapDistanceToForce)
 				{
-					force *= (maxForce-minForce);
+					force *= (maxForce - minForce);
 					force += minForce;
 				}
 				else
 				{
 					force *= forceMultiplier;
 				}
-
-				lastPivot = currentPivot;
+				Debug.Log(force);
+				currentFireplace?.RestartPositionPivot();
+				lastFireplace = currentFireplace;
 				currentPivot = null;
 				targetRigidbody.bodyType = RigidbodyType2D.Dynamic;
 				targetRigidbody.AddForce(direction * force, forceMode2D);
 			}
 		}
-
-
-
 
 
 #if UNITY_EDITOR
@@ -151,7 +165,7 @@ namespace TR
 				return;
 			}
 
-			Vector3 direction = currentPivot.position - transform.position;
+			Vector3 direction = transform.position - currentPivot.position;
 			direction.z = 0;
 
 			if (direction.magnitude < minDistance)
@@ -167,20 +181,20 @@ namespace TR
 				Gizmos.color = Color.red;
 			}
 			direction = Vector3.ClampMagnitude(direction, maxDistance);
-			Gizmos.DrawLine(currentPivot.position, currentPivot.position + direction);
+			Gizmos.DrawLine(transform.position, transform.position + direction);
 		}
 
 		private void OnDrawGizmosSelected()
 		{
-			if (!currentPivot)
+			if (!transform)
 			{
 				return;
 			}
 
 			Gizmos.color = Color.cyan;
-			Gizmos.DrawWireSphere(currentPivot.position, minDistance);
+			Gizmos.DrawWireSphere(transform.position, minDistance);
 			Gizmos.color = Color.red;
-			Gizmos.DrawWireSphere(currentPivot.position, maxDistance);
+			Gizmos.DrawWireSphere(transform.position, maxDistance);
 
 
 
