@@ -9,16 +9,21 @@ namespace TR
 	[RequireComponent(typeof(Rigidbody2D))]
 	public class SlingshotProjectileBehaviour : MonoBehaviour
 	{
+		private Transform currentPivot = null;
+		private Fireplace lastFireplace = null;
+		private Fireplace currentFireplace = null;
 
-		private Transform currentPivot;
-		private Fireplace lastFireplace;
-		private Fireplace currentFireplace;
-
-		private Rigidbody2D targetRigidbody;
+		private Rigidbody2D targetRigidbody = null;
 
 		[SerializeField]
-		private LayerMask killerMask;
-		private ParticleSystem[] particleSystems;
+		private LayerMask killerMask = new LayerMask();
+		private ParticleSystem[] particleSystems = new ParticleSystem[0];
+		private bool isDeathCountdownOn = false;
+
+		[Header("Life")]
+		private Timer timer;
+		[SerializeField]
+		private Timer.Duration duration = new Timer.Duration(3);
 
 		[Header("Drag")]
 		[SerializeField]
@@ -53,13 +58,9 @@ namespace TR
 		[Header("Events")]
 		public UnityEvent onRespawn = new UnityEvent();
 
-		public bool IsMoving
-		{
-			get
-			{
-				return targetRigidbody.bodyType == RigidbodyType2D.Dynamic;
-			}
-		}
+		private Vector3 scale = Vector3.zero;
+
+
 		private void Reset()
 		{
 			pivotLayer = LayerMask.NameToLayer("Pivot");
@@ -67,8 +68,21 @@ namespace TR
 
 		private void Awake()
 		{
+			scale = transform.localScale;
 			targetRigidbody = GetComponent<Rigidbody2D>();
 			particleSystems = GetComponentsInChildren<ParticleSystem>();
+		}
+		public void Update()
+		{
+			if (timer.isRunning)
+			{
+				if (timer.Update(duration))
+				{
+					OnDeath();
+				}
+				Debug.Log(timer.GetProgress(duration));
+				transform.localScale = scale * timer.GetProgress(duration);
+			}
 		}
 
 		/// <summary>
@@ -109,17 +123,34 @@ namespace TR
 			Debug.Log(collision);
 			if (((1 << collision.gameObject.layer) & killerMask) != 0)
 			{
-
-				ResetPivot();
+				if (!timer.isRunning)
+				{
+					timer.Start();
+				}
 			}
 		}
 
+		public void OnDeath()
+		{
+			timer.Stop();
+			ResetPivot();
+		}
+
+		public bool IsMoving
+		{
+			get
+			{
+				return targetRigidbody.bodyType == RigidbodyType2D.Dynamic;
+			}
+		}
 		private void AssignNewPivot(Fireplace fireplace)
 		{
 			if (fireplace && fireplace.pivot)
 			{
-
+				timer.Stop();
 				currentFireplace = fireplace;
+				lastFireplace?.SetActive(false);
+				currentFireplace.SetActive(true);
 				currentPivot = fireplace.pivot.transform;
 				targetRigidbody.bodyType = RigidbodyType2D.Kinematic;
 				targetRigidbody.velocity = Vector2.zero;
@@ -152,6 +183,8 @@ namespace TR
 				var emission = particle.emission;
 				emission.enabled = true;
 			}
+			transform.localScale = scale;
+
 		}
 
 
