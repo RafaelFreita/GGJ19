@@ -81,7 +81,7 @@ namespace TR
 					OnDeath();
 				}
 				Debug.Log(timer.GetProgress(duration));
-				transform.localScale = scale * timer.GetProgress(duration);
+				transform.localScale = scale * (1-timer.GetProgress(duration));
 			}
 		}
 
