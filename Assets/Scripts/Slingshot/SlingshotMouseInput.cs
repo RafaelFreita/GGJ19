@@ -12,9 +12,10 @@ namespace TR
 		public LayerMask LayerMask = Physics.DefaultRaycastLayers;
 
 		[Tooltip("Current target"), InspectorReadOnly]
-		public Collider2D target;
+		[SerializeField]
+		private Collider2D target;
 
-        private SlingshotProjectileBehaviour projectBehaviour;
+        private SlingshotProjectileBehaviour projectileBehaviour;
         private Vector2 lastPoint = Vector2.zero;
 
 		private void Reset()
@@ -45,7 +46,7 @@ namespace TR
 				Vector2 point = camera.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, -camera.transform.position.z));
 				Debug.Log(point);
 				target = Physics2D.OverlapPoint(point, LayerMask);
-                projectBehaviour = target?.GetComponent<SlingshotProjectileBehaviour>();
+                projectileBehaviour = target?.GetComponent<SlingshotProjectileBehaviour>();
                 Debug.Log(target);
 
 				lastPoint = point;
@@ -58,6 +59,14 @@ namespace TR
 				return;
 			}
 
+			if (projectileBehaviour)
+			{
+				if (projectileBehaviour.IsMoving)
+				{
+					return;
+				}
+			}
+
 			Vector2 point = camera.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, -camera.transform.position.z));
 			target.transform.position += (Vector3)(point - lastPoint);
 			lastPoint = point;
@@ -67,7 +76,7 @@ namespace TR
 
 		private void MouseUp()
 		{
-			target?.GetComponent<SlingshotProjectileBehaviour>()?.Shoot();
+			projectileBehaviour?.Shoot();
 			target = null;
 		}
 

@@ -43,6 +43,13 @@ namespace TR
 		[LayerSelector]
 		private int pivotLayer = 0;
 
+		public bool IsMoving
+		{
+			get
+			{
+				return targetRigidbody.bodyType == RigidbodyType2D.Dynamic;
+			}
+		}
 		private void Reset()
 		{
 			pivotLayer = LayerMask.NameToLayer("Pivot");
