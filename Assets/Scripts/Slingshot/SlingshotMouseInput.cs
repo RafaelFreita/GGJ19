@@ -17,14 +17,22 @@ namespace TR
 
 		private Fireplace targetFireplace;
 
-		[AutoFind(typeof(SlingshotProjectileBehaviour),true)]
+		[AutoFind(typeof(SlingshotProjectileBehaviour), true)]
 		[SerializeField]
-        private SlingshotProjectileBehaviour projectileBehaviour;
-        private Vector2 lastPoint = Vector2.zero;
+		private SlingshotProjectileBehaviour projectileBehaviour;
+		private Vector2 lastPoint = Vector2.zero;
 
 		private void Reset()
 		{
 			camera = FindObjectOfType<Camera>();
+		}
+
+		private void Awake()
+		{
+			if (!camera)
+			{
+				camera = FindObjectOfType<Camera>();
+			}
 		}
 
 		private void Update()
@@ -37,7 +45,7 @@ namespace TR
 			{
 				MouseUp();
 			}
-			else  if (Input.GetMouseButton(0))
+			else if (Input.GetMouseButton(0))
 			{
 				MouseUpdate();
 			}
