@@ -13,6 +13,8 @@ namespace TR
 
 		private Rigidbody2D targetRigidbody;
 
+		[SerializeField]
+		private LayerMask killerMask;
 
 		[Header("Drag")]
 		[SerializeField]
@@ -94,6 +96,14 @@ namespace TR
 			}
 		}
 
+		private void OnCollisionEnter2D(Collision2D collision)
+		{
+			Debug.Log(collision);
+			if (((1 << collision.gameObject.layer) & killerMask) != 0)
+			{
+				ResetPivot();
+			}
+		}
 
 		private void AssignNewPivot(Fireplace fireplace)
 		{
@@ -155,7 +165,6 @@ namespace TR
 				targetRigidbody.AddForce(direction * force, forceMode2D);
 			}
 		}
-
 
 #if UNITY_EDITOR
 		private void OnDrawGizmos()
