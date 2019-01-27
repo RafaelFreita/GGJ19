@@ -63,7 +63,17 @@ namespace TR
 		[Unit("s")]
 		private float secondsToTransitionBetweenMusics = 1;
 		public FMOD.Studio.ParameterInstance cozynessParameter;
-		private float currentCozyness = 0;
+		private float currentCozyness = 1;
+
+		[FMODUnity.EventRef]
+		public string sfxFadingEvent;
+		private FMOD.Studio.EventInstance sfxFadingInstance;
+		[FMODUnity.EventRef]
+		public string sfxThrowingEvent;
+		private FMOD.Studio.EventInstance sfxThrowingInstance;
+		[FMODUnity.EventRef]
+		public string sfxEnterFireplaceEvent;
+		private FMOD.Studio.EventInstance sfxEnterFireplaceInstance;
 
 
 		[Header("Events")]
@@ -91,6 +101,12 @@ namespace TR
 			musicInstance = FMODUnity.RuntimeManager.CreateInstance(musicEvent);
 			musicInstance.start();
 			musicInstance.getParameter("cozy", out cozynessParameter);
+			cozynessParameter.setValue(currentCozyness);
+
+			sfxFadingInstance = FMODUnity.RuntimeManager.CreateInstance(sfxFadingEvent);
+			sfxThrowingInstance = FMODUnity.RuntimeManager.CreateInstance(sfxThrowingEvent);
+			sfxEnterFireplaceInstance = FMODUnity.RuntimeManager.CreateInstance(sfxEnterFireplaceEvent);
+
 		}
 		public void Update()
 		{
@@ -114,6 +130,7 @@ namespace TR
 				{
 					currentCozyness += secondsToTransitionBetweenMusics * Time.deltaTime;
 				}
+				currentCozyness = Mathf.Clamp01(currentCozyness);
 				cozynessParameter.setValue(currentCozyness);
 			}
 		}
@@ -158,6 +175,8 @@ namespace TR
 			{
 				if (!timer.isRunning)
 				{
+					var debug = sfxFadingInstance.start();
+					Debug.Log(debug);
 					timer.Start();
 				}
 			}
@@ -165,7 +184,10 @@ namespace TR
 
 		private void OnDestroy()
 		{
-			musicInstance.release();	
+			musicInstance.release();
+			sfxFadingInstance.release();
+			sfxThrowingInstance.release();
+			sfxEnterFireplaceInstance.release();
 		}
 
 		public void OnDeath()
@@ -196,11 +218,12 @@ namespace TR
 				targetRigidbody.velocity = Vector2.zero;
 				targetRigidbody.angularVelocity = 0;
 				transform.position = currentPivot.position;
-                transform.rotation = Quaternion.identity;
+				transform.rotation = Quaternion.identity;
 
 				timer.Stop();
 				StartCoroutine(WaitForProjectileReturn());
 
+				sfxEnterFireplaceInstance.start();
 			}
 		}
 		/// <summary>
@@ -209,14 +232,14 @@ namespace TR
 		[LUT.Button]
 		public void ResetPivot()
 		{
-            foreach (var particle in particleSystems)
-            {
-                var emission = particle.emission;
-                emission.enabled = false;
-            }
-            lastFireplace.RestartPositionPivot();
+			foreach (var particle in particleSystems)
+			{
+				var emission = particle.emission;
+				emission.enabled = false;
+			}
+			lastFireplace.RestartPositionPivot();
 			AssignNewPivot(lastFireplace);
-            onRespawn.Invoke();
+			onRespawn.Invoke();
 		}
 
 		private IEnumerator WaitForProjectileReturn()
@@ -227,7 +250,7 @@ namespace TR
 				var emission = particle.emission;
 				emission.enabled = true;
 
-            }
+			}
 			transform.localScale = scale;
 		}
 
@@ -268,6 +291,8 @@ namespace TR
 				currentPivot = null;
 				targetRigidbody.bodyType = RigidbodyType2D.Dynamic;
 				targetRigidbody.AddForce(direction * force, forceMode2D);
+				sfxThrowingInstance.start();
+
 			}
 		}
 

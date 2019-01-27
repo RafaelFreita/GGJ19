@@ -5,7 +5,7 @@
             <value>FireFading</value>
         </property>
         <property name="outputFormat">
-            <value>2</value>
+            <value>0</value>
         </property>
         <relationship name="folder">
             <destination>{46cb93b1-73aa-47c1-8635-aea2f60f902a}</destination>
@@ -98,7 +98,6 @@
     <object class="MixerBusEffectChain" id="{89e4f7dc-eeb7-4787-b0e8-3de4c8d9d0d3}">
         <relationship name="effects">
             <destination>{dd73302c-cd5a-4abe-b41d-7de6d7058334}</destination>
-            <destination>{00a652fc-8218-4fd6-8dd0-5a62c89ddca9}</destination>
         </relationship>
     </object>
     <object class="MixerBusPanner" id="{8d1a6e4e-31bc-4676-9bfc-582239909be2}"/>
@@ -110,6 +109,5 @@
     </object>
     <object class="MixerBusPanner" id="{b8aaaecc-8b30-4cf8-8689-e2e7d5e89f0d}"/>
     <object class="MixerBusFader" id="{dd73302c-cd5a-4abe-b41d-7de6d7058334}"/>
-    <object class="SpatialiserEffect" id="{00a652fc-8218-4fd6-8dd0-5a62c89ddca9}"/>
     <object class="MixerBusFader" id="{c86b015a-1e8f-4f2b-a797-b48ddb437671}"/>
 </objects>
