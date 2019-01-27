@@ -259,9 +259,11 @@ MonoBehaviour:
   pivotLayer: 10
   musicEvent: event:/Music
   secondsToTransitionBetweenMusics: 1
+  rainEvent: event:/Rain
   sfxFadingEvent: event:/FireFading
   sfxThrowingEvent: event:/FireThrowing
   sfxEnterFireplaceEvent: event:/FireEnteringFireplace
+  sfxHittingEvent: event:/Hitting
   onRespawn:
     m_PersistentCalls:
       m_Calls: []

@@ -55,7 +55,7 @@ namespace TR
 		[LayerSelector]
 		private int pivotLayer = 0;
 
-		[Header("Sound")]
+		[Header("Music")]
 		[FMODUnity.EventRef]
 		public string musicEvent;
 		private FMOD.Studio.EventInstance musicInstance;
@@ -64,6 +64,12 @@ namespace TR
 		private float secondsToTransitionBetweenMusics = 1;
 		public FMOD.Studio.ParameterInstance cozynessParameter;
 		private float currentCozyness = 1;
+		[FMODUnity.EventRef]
+		public string rainEvent;
+		private FMOD.Studio.EventInstance rainInstance;
+		public FMOD.Studio.ParameterInstance coveredParameter;
+
+		[Header("SFX")]
 
 		[FMODUnity.EventRef]
 		public string sfxFadingEvent;
@@ -74,6 +80,9 @@ namespace TR
 		[FMODUnity.EventRef]
 		public string sfxEnterFireplaceEvent;
 		private FMOD.Studio.EventInstance sfxEnterFireplaceInstance;
+		[FMODUnity.EventRef]
+		public string sfxHittingEvent;
+		private FMOD.Studio.EventInstance sfxHittingInstance;
 
 
 		[Header("Events")]
@@ -99,13 +108,20 @@ namespace TR
 		private void GetSounds()
 		{
 			musicInstance = FMODUnity.RuntimeManager.CreateInstance(musicEvent);
-			musicInstance.start();
 			musicInstance.getParameter("cozy", out cozynessParameter);
 			cozynessParameter.setValue(currentCozyness);
+			musicInstance.start();
+
+			rainInstance = FMODUnity.RuntimeManager.CreateInstance(rainEvent);
+			rainInstance.getParameter("covered", out coveredParameter);
+			coveredParameter.setValue(currentCozyness);
+			rainInstance.start();
+
 
 			sfxFadingInstance = FMODUnity.RuntimeManager.CreateInstance(sfxFadingEvent);
 			sfxThrowingInstance = FMODUnity.RuntimeManager.CreateInstance(sfxThrowingEvent);
 			sfxEnterFireplaceInstance = FMODUnity.RuntimeManager.CreateInstance(sfxEnterFireplaceEvent);
+			sfxHittingInstance = FMODUnity.RuntimeManager.CreateInstance(sfxHittingEvent);
 
 		}
 		public void Update()
@@ -116,7 +132,6 @@ namespace TR
 				{
 					OnDeath();
 				}
-				Debug.Log(timer.GetProgress(duration));
 				transform.localScale = scale * (1 - timer.GetProgress(duration));
 			}
 
@@ -131,6 +146,7 @@ namespace TR
 					currentCozyness += secondsToTransitionBetweenMusics * Time.deltaTime;
 				}
 				currentCozyness = Mathf.Clamp01(currentCozyness);
+				coveredParameter.setValue(currentCozyness);
 				cozynessParameter.setValue(currentCozyness);
 			}
 		}
@@ -168,19 +184,34 @@ namespace TR
 			}
 		}
 
+		private Collider2D lastCollider = null;
 		private void OnCollisionEnter2D(Collision2D collision)
 		{
+			if (timer.isRunning)
+			{
+				FMOD.Studio.PLAYBACK_STATE playbackState;
+				sfxHittingInstance.getPlaybackState(out playbackState);
+				if (collision.collider != lastCollider || playbackState != FMOD.Studio.PLAYBACK_STATE.PLAYING)
+				{
+					sfxHittingInstance.start();
+				}
+			}
+			else
+			{
+				sfxHittingInstance.start();
+			}
 			Debug.Log(collision);
 			if (((1 << collision.gameObject.layer) & killerMask) != 0)
 			{
 				if (!timer.isRunning)
 				{
-					var debug = sfxFadingInstance.start();
-					Debug.Log(debug);
+					sfxFadingInstance.start();
 					timer.Start();
 				}
 			}
+			lastCollider = collision.collider;
 		}
+
 
 		private void OnDestroy()
 		{
@@ -188,6 +219,7 @@ namespace TR
 			sfxFadingInstance.release();
 			sfxThrowingInstance.release();
 			sfxEnterFireplaceInstance.release();
+			sfxHittingInstance.release();
 		}
 
 		public void OnDeath()
