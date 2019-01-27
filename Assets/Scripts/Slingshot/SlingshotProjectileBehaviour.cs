@@ -94,7 +94,7 @@ namespace TR
 		}
 		public void Update()
 		{
-			if (timer.isRunning)
+			if (timer.isRunning && !currentPivot)
 			{
 				if (timer.Update(duration))
 				{
@@ -196,6 +196,7 @@ namespace TR
 				targetRigidbody.velocity = Vector2.zero;
 				targetRigidbody.angularVelocity = 0;
 				transform.position = currentPivot.position;
+                transform.rotation = Quaternion.identity;
 
 				timer.Stop();
 				StartCoroutine(WaitForProjectileReturn());
@@ -208,15 +209,14 @@ namespace TR
 		[LUT.Button]
 		public void ResetPivot()
 		{
-			foreach (var particle in particleSystems)
-			{
-				var emission = particle.emission;
-				emission.enabled = false;
-			}
-			lastFireplace.RestartPositionPivot();
+            foreach (var particle in particleSystems)
+            {
+                var emission = particle.emission;
+                emission.enabled = false;
+            }
+            lastFireplace.RestartPositionPivot();
 			AssignNewPivot(lastFireplace);
-			onRespawn.Invoke();
-			StartCoroutine(WaitForProjectileReturn());
+            onRespawn.Invoke();
 		}
 
 		private IEnumerator WaitForProjectileReturn()
@@ -226,7 +226,8 @@ namespace TR
 			{
 				var emission = particle.emission;
 				emission.enabled = true;
-			}
+
+            }
 			transform.localScale = scale;
 		}
 

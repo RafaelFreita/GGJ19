@@ -95,7 +95,7 @@ LineRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 943288b6f84267140a48a638a33a425b, type: 2}
+  - {fileID: 2100000, guid: 5776f42054a53d3449f12ad6b25338a1, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -126,13 +126,22 @@ LineRenderer:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.4494381
+        value: 0.088326976
+        inSlope: 0.2389361
+        outSlope: 0.2389361
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.32786882
+      - serializedVersion: 3
+        time: 1
+        value: 0.16666667
         inSlope: 0
         outSlope: 0
         tangentMode: 0
         weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.33333334
+        inWeight: 0
+        outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
@@ -229,8 +238,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6700965759679052683}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.83, y: 0, z: 0}
-  m_LocalScale: {x: 0.72586, y: 0.72586, z: 0.72586}
+  m_LocalPosition: {x: 0.629, y: 0, z: 0}
+  m_LocalScale: {x: 0.4888159, y: 0.4888159, z: 0.4888159}
   m_Children: []
   m_Father: {fileID: 6700965759458259206}
   m_RootOrder: 0
@@ -252,7 +261,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 5776f42054a53d3449f12ad6b25338a1, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

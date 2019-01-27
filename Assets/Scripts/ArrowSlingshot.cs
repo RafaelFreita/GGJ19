@@ -27,7 +27,7 @@ namespace TR
 
 		private void Update()
 		{
-			if (slingshotMouseInput.IsDragging)
+			if (slingshotMouseInput.IsDragging && !slingshotProjectileBehaviour.IsMoving)
 			{
 				arrowHead.gameObject.SetActive(true);
 				lineRenderer.gameObject.SetActive(true);
