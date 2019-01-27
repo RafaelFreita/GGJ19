@@ -6,8 +6,9 @@ public class LastFireplace : MonoBehaviour
 {
     
     public GameObject fireObject;
+    public Animator animator;
 
-    private void OnTriggerEnter2D(Collider2D collision)
+	private void OnTriggerEnter2D(Collider2D collision)
     {
         fireObject.SetActive(true);
         var particleSystems = collision.gameObject.GetComponentsInChildren<ParticleSystem>();
@@ -15,5 +16,7 @@ public class LastFireplace : MonoBehaviour
         {
             p.Play();
         }
-    }
+		animator.SetTrigger("Do");
+
+	}
 }

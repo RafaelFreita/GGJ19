@@ -97,6 +97,7 @@ namespace TR
 			pivotLayer = LayerMask.NameToLayer("Pivot");
 		}
 
+
 		private void Awake()
 		{
 			scale = transform.localScale;
@@ -124,6 +125,12 @@ namespace TR
 			sfxHittingInstance = FMODUnity.RuntimeManager.CreateInstance(sfxHittingEvent);
 
 		}
+
+		public void SetFinal()
+		{
+			currentFireplace = null;
+			secondsToTransitionBetweenMusics = 5f;
+		}
 		public void Update()
 		{
 			if (timer.isRunning && !currentPivot)
@@ -135,20 +142,22 @@ namespace TR
 				transform.localScale = scale * (1 - timer.GetProgress(duration));
 			}
 
-			if (currentFireplace)
+			if (!currentFireplace)
 			{
-				if (currentFireplace.type == Fireplace.Type.Cold)
-				{
-					currentCozyness -= secondsToTransitionBetweenMusics * Time.deltaTime;
-				}
-				else
-				{
-					currentCozyness += secondsToTransitionBetweenMusics * Time.deltaTime;
-				}
-				currentCozyness = Mathf.Clamp01(currentCozyness);
-				coveredParameter.setValue(currentCozyness);
-				cozynessParameter.setValue(currentCozyness);
+				currentCozyness += 1/secondsToTransitionBetweenMusics * Time.deltaTime;
 			}
+			else if (currentFireplace.type == Fireplace.Type.Cold)
+			{
+				currentCozyness -= 1/secondsToTransitionBetweenMusics * Time.deltaTime;
+			}
+			else
+			{
+				currentCozyness += 1/secondsToTransitionBetweenMusics * Time.deltaTime;
+			}
+			currentCozyness = Mathf.Clamp01(currentCozyness);
+			coveredParameter.setValue(currentCozyness);
+			cozynessParameter.setValue(currentCozyness);
+
 		}
 
 		/// <summary>

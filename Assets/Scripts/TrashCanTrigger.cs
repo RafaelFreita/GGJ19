@@ -1,20 +1,28 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class TrashCanTrigger : MonoBehaviour
+
+namespace TR
 {
 
-    public ParticleSystem fire;
-    public GameObject virtualCamera;
+	public class TrashCanTrigger : MonoBehaviour
+	{
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        virtualCamera.SetActive(true);
-        fire.gameObject.SetActive(true);
-        fire.Play();
-        //Destroy(collision.gameObject);
-        collision.gameObject.GetComponentInChildren<ParticleSystem>().Stop(true);
-    }
+		public ParticleSystem fire;
+		public GameObject virtualCamera;
+		public Animator animator;
 
+
+		private void OnTriggerEnter2D(Collider2D collision)
+		{
+			virtualCamera.SetActive(true);
+			fire.gameObject.SetActive(true);
+			fire.Play();
+			//Destroy(collision.gameObject);
+			collision.gameObject.GetComponentInChildren<ParticleSystem>().Stop(true);
+			collision.gameObject.GetComponent<SlingshotProjectileBehaviour>().SetFinal();
+			animator.SetTrigger("Do");
+
+		}
+
+	}
 }
