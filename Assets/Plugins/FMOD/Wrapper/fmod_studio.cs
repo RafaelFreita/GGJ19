@@ -8,6 +8,7 @@ using System;
 using System.Text;
 using System.Runtime.InteropServices;
 using System.Collections;
+using UnityEngine;
 
 namespace FMOD.Studio
 {
@@ -1198,8 +1199,10 @@ namespace FMOD.Studio
             return hasHandle() && FMOD_Studio_EventInstance_IsValid(this.handle);
         }
 
-        #endregion
-    }
+		public void set3DAttributes(Vector3 position) => throw new NotImplementedException();
+
+		#endregion
+	}
 
     public struct ParameterInstance
     {

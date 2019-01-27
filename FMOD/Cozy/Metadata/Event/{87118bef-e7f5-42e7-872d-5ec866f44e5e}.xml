@@ -5,7 +5,7 @@
             <value>FireEnteringFireplace</value>
         </property>
         <property name="outputFormat">
-            <value>2</value>
+            <value>1</value>
         </property>
         <relationship name="folder">
             <destination>{46cb93b1-73aa-47c1-8635-aea2f60f902a}</destination>
@@ -119,7 +119,6 @@
     <object class="MixerBusEffectChain" id="{85bcc68a-fbc5-40c5-bd9c-62cb60d82f2c}">
         <relationship name="effects">
             <destination>{aebe78f1-0fe4-4847-949f-4af4498b6567}</destination>
-            <destination>{b5b7a310-d749-4b85-811c-99b79cf96d78}</destination>
         </relationship>
     </object>
     <object class="MixerBusPanner" id="{9aaed1c1-0f41-4bf1-9875-367dade6b847}"/>
@@ -139,6 +138,5 @@
     </object>
     <object class="MixerBusPanner" id="{3181d6e6-55d0-4b69-b89f-b794e65b0dee}"/>
     <object class="MixerBusFader" id="{aebe78f1-0fe4-4847-949f-4af4498b6567}"/>
-    <object class="SpatialiserEffect" id="{b5b7a310-d749-4b85-811c-99b79cf96d78}"/>
     <object class="MixerBusFader" id="{87ff1fcc-ed2e-4f7e-907e-39d2a8ff908d}"/>
 </objects>
