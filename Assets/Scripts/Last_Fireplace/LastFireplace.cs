@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class LastFireplace : MonoBehaviour
 {
-
+    
     public GameObject fireObject;
 
     private void OnTriggerEnter2D(Collider2D collision)
