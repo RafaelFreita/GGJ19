@@ -257,6 +257,8 @@ MonoBehaviour:
   maxForce: 20
   forceMode2D: 1
   pivotLayer: 10
+  musicEvent: event:/Music
+  secondsToTransitionBetweenMusics: 1
   onRespawn:
     m_PersistentCalls:
       m_Calls: []

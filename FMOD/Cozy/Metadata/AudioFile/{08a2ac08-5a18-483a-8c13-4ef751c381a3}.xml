@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.01.10.00">
+    <object class="AudioFile" id="{08a2ac08-5a18-483a-8c13-4ef751c381a3}">
+        <property name="assetPath">
+            <value>MUSIC/cozy quente.wav</value>
+        </property>
+        <property name="isStreaming">
+            <value>true</value>
+        </property>
+        <property name="frequencyInKHz">
+            <value>48</value>
+        </property>
+        <property name="channelCount">
+            <value>2</value>
+        </property>
+        <property name="length">
+            <value>128</value>
+        </property>
+        <relationship name="masterAssetFolder">
+            <destination>{21838e4f-15db-4d5b-b8c9-daa2c5542f54}</destination>
+        </relationship>
+    </object>
+</objects>

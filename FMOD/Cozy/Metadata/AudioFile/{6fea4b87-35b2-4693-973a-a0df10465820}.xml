@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.01.10.00">
+    <object class="AudioFile" id="{6fea4b87-35b2-4693-973a-a0df10465820}">
+        <property name="assetPath">
+            <value>SFX/ball bouncing in the wall.wav</value>
+        </property>
+        <property name="frequencyInKHz">
+            <value>48</value>
+        </property>
+        <property name="channelCount">
+            <value>2</value>
+        </property>
+        <property name="length">
+            <value>2.4742291666666665</value>
+        </property>
+        <relationship name="masterAssetFolder">
+            <destination>{21838e4f-15db-4d5b-b8c9-daa2c5542f54}</destination>
+        </relationship>
+    </object>
+</objects>

@@ -34,3 +34,8 @@ sysinfo.txt
 # Builds
 *.apk
 *.unitypackage
+
+# Others
+*build_info.txt*
+*.log
+*FMODStudioCache.asset*

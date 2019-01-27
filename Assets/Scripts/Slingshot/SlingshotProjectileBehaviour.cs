@@ -15,12 +15,12 @@ namespace TR
 
 		private Rigidbody2D targetRigidbody = null;
 
+
+		[Header("Life")]
 		[SerializeField]
 		private LayerMask killerMask = new LayerMask();
 		private ParticleSystem[] particleSystems = new ParticleSystem[0];
 		private bool isDeathCountdownOn = false;
-
-		[Header("Life")]
 		private Timer timer;
 		[SerializeField]
 		private Timer.Duration duration = new Timer.Duration(3);
@@ -55,6 +55,17 @@ namespace TR
 		[LayerSelector]
 		private int pivotLayer = 0;
 
+		[Header("Sound")]
+		[FMODUnity.EventRef]
+		public string musicEvent;
+		private FMOD.Studio.EventInstance musicInstance;
+		[SerializeField]
+		[Unit("s")]
+		private float secondsToTransitionBetweenMusics = 1;
+		public FMOD.Studio.ParameterInstance cozynessParameter;
+		private float currentCozyness = 0;
+
+
 		[Header("Events")]
 		public UnityEvent onRespawn = new UnityEvent();
 
@@ -72,6 +83,14 @@ namespace TR
 			scale = transform.localScale;
 			targetRigidbody = GetComponent<Rigidbody2D>();
 			particleSystems = GetComponentsInChildren<ParticleSystem>();
+			GetSounds();
+		}
+
+		private void GetSounds()
+		{
+			musicInstance = FMODUnity.RuntimeManager.CreateInstance(musicEvent);
+			musicInstance.start();
+			musicInstance.getParameter("cozy", out cozynessParameter);
 		}
 		public void Update()
 		{
@@ -83,6 +102,19 @@ namespace TR
 				}
 				Debug.Log(timer.GetProgress(duration));
 				transform.localScale = scale * (1 - timer.GetProgress(duration));
+			}
+
+			if (currentFireplace)
+			{
+				if (currentFireplace.type == Fireplace.Type.Cold)
+				{
+					currentCozyness -= secondsToTransitionBetweenMusics * Time.deltaTime;
+				}
+				else
+				{
+					currentCozyness += secondsToTransitionBetweenMusics * Time.deltaTime;
+				}
+				cozynessParameter.setValue(currentCozyness);
 			}
 		}
 
@@ -129,6 +161,11 @@ namespace TR
 					timer.Start();
 				}
 			}
+		}
+
+		private void OnDestroy()
+		{
+			musicInstance.release();	
 		}
 
 		public void OnDeath()

@@ -5,11 +5,18 @@ namespace TR
 {
 	public class Fireplace : MonoBehaviour
 	{
+		public enum Type
+		{
+			Cozy,
+			Cold
+		}
 		public Transform pivot;
 
 		public Vector3 startPosition;
 
 		public UnityEventBool onActive;
+
+		public Type type = Type.Cozy;
 
 		private void Awake()
 		{
